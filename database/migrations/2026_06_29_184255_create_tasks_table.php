@@ -11,6 +11,7 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
+		// create → 新しくtasksテーブルを作る
 		Schema::create('tasks', function (Blueprint $table) {
 			$table->id();
 			$table->string("task");
