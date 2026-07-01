@@ -10,9 +10,20 @@ use Illuminate\Http\Request;
 use App\Models\Task; // モデル(DB操作)
 
 class TasksController extends Controller {
-
   // actionを定義していく
 	// リクエストを受け取って実行される関数のこと
+
+	// ✅ 一覧ページを返す
+	public function index() {
+		$tasks = Task::all(); // DBから全件取得
+
+		// dd($tasks); // デバッグ Dump and Die
+
+		// 変数をviewに渡す → ページを動的にしていく
+		return view("tasks.index", [ // index.blade.php
+			"tasks" => $tasks
+		]);
+	}
 
 	// Request ... 型宣言。タイプヒント。
 	public function store(Request $request){
@@ -22,6 +33,8 @@ class TasksController extends Controller {
 			Task::$messages // エラーメッセージ
 		);
 
+		// ✅ DBに保存
+		// create() → Taskの親のModelのメソッド
 		$result = Task::create($validated); // バリデーション後の変数
 
 		// バリデーションしたので下記は不要
@@ -36,4 +49,6 @@ class TasksController extends Controller {
 
 		return $result->id . " 番目のタスクを追加しました。";
 	}
+
+
 }

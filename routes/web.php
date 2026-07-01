@@ -51,3 +51,15 @@ Route::get("/tasks/create", function(){
 // TasksControllerクラスのstoreメソッドを実行する
 Route::post("/tasks/create", [TasksController::class, "store"]);
 
+// ✅ 一覧ページ
+Route::get("/tasks", [TasksController::class, "index"]);
+
+// ✅ 編集ページ
+// ->name("tasks.edit") ... このルーティングに名前をつける
+// 👉 bladeのテンプレートエンジンからidを渡せる
+// <a href="{{ route('tasks.edit', $task->id) }}" class="...">
+
+Route::get("/tasks/{id}/edit", [TasksController::class, "edit"])->name("tasks.edit");
+
+
+

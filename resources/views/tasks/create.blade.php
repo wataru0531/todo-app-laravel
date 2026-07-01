@@ -15,6 +15,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Task - Minimal Task Manager</title>
 
+  <!-- 
+    cssとJSに関しては、viteで編集できるようにする 
+  -->
   @vite(["resources/css/app.css", "resources/js/app.js"])
 
   <!-- Font Awesome -->
@@ -95,7 +98,17 @@
           Task Name
         </label>
         <div class="relative animate-shake">
-          <input type="text" name="task" id="task-content" class="block w-full py-3 px-4 border-2 rounded-xl text-[#1a1a1a] focus:outline-none text-lg font-light" placeholder="例: デザインカンプの作成" autofocus value="">
+
+          
+          <input 
+            type="text" 
+            name="task" 
+            id="task-content" 
+            class="block w-full py-3 px-4 border-2 rounded-xl text-[#1a1a1a] focus:outline-none text-lg font-light" 
+            placeholder="例: デザインカンプの作成" 
+            autofocus 
+            value="{{ old('task') }}"
+          >
           <!-- 
             Error Message 
             taskでエラーが起きていたらエラー分を表示

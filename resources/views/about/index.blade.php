@@ -1,8 +1,6 @@
 <!-- 
 	✅ blade → テンプレートエンジン
 
-
-
 -->
 
 <!DOCTYPE html>
