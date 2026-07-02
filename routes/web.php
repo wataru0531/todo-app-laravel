@@ -23,43 +23,28 @@ Route::get("/about", function() {
 });
 
 
+// ✅ 一覧ページ
+Route::get("/tasks", [TasksController::class, "index"])->name("tasks.index");
+
 // ✅ tasks/create
-// GET
-Route::get("/tasks/create", function(){
-	return view("tasks.create");
-});
-
-// POST
-// Route::post("/tasks/create", function(Request $request) {
-// 	// フォームから値を取得。name属性から
-// 	// $task = request("task");
-	
-// 	// $task = $request->input("task");
-
-// 	$validate = $request->validate([
-// 		"task" => ["required", "max:255"],
-// 		"deadline" => ["nullable"],
-// 	]);
-
-// 	// return "タスクが送信されました";
-// 	// return $task .  "が送信されました";
-// 	return $validate["task"] . $validate["deadline"];
-// });
-
+// Route::get("/tasks/create", function(){
+// 	return view("tasks.create");
+// })->name("tasks.create");
+Route::get("/tasks/create", [TasksController::class, "create"])->name("tasks.create");
 
 // ✅ コントローラに渡して対処する
 // TasksControllerクラスのstoreメソッドを実行する
-Route::post("/tasks/create", [TasksController::class, "store"]);
-
-// ✅ 一覧ページ
-Route::get("/tasks", [TasksController::class, "index"]);
+Route::post("/tasks/create", [TasksController::class, "store"])->name("tasks.store");
 
 // ✅ 編集ページ
 // ->name("tasks.edit") ... このルーティングに名前をつける
-// 👉 bladeのテンプレートエンジンからidを渡せる
-// <a href="{{ route('tasks.edit', $task->id) }}" class="...">
-
+// 👉 bladeのテンプレートエンジンからコントローラに、idを渡せる
+// <a href="{{ route('tasks.edit', $task->id) }}">
 Route::get("/tasks/{id}/edit", [TasksController::class, "edit"])->name("tasks.edit");
 
 
+// ✅ 編集する
+Route::post("/tasks/{id}/edit", [TasksController::class, "update"])->name("tasks.update");
 
+// ✅ 削除
+Route::delete("/tasks/{id}/delete", [TasksController::class, "destroy"])->name("tasks.destroy");

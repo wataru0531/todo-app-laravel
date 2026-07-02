@@ -72,13 +72,13 @@
     -->
     <!-- Header Area -->
     <header class="mb-8 flex justify-between items-end px-2">
-        <div>
-            <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">TODAY</p>
-            <h1 class="text-3xl font-light tracking-tight text-[#1a1a1a]">Tasks</h1>
-        </div>
-        <div class="text-right">
-            <span class="text-sm font-medium text-gray-500">3 tasks left</span>
-        </div>
+      <div>
+        <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">TODAY</p>
+        <h1 class="text-3xl font-light tracking-tight text-[#1a1a1a]">Tasks</h1>
+      </div>
+      <div class="text-right">
+        <span class="text-sm font-medium text-gray-500">3 tasks left</span>
+      </div>
     </header>
 
     <!--
@@ -119,9 +119,30 @@
                 @endif
               </div>
             </div>
-            <button class="text-gray-300 hover:text-red-500 p-2 rounded-full hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100">
-              <i class="fa-solid fa-trash text-sm"></i>
-            </button>
+
+            <!-- 
+              ✅ 削除ボタン
+              → formで実装。csrf、HTTPメソッドとしてdeleteとして送信する必要があるのでformにする
+            -->
+            
+            <form 
+              action="{{ route('tasks.destroy', $task->id) }}"
+              method="post"
+            >
+              @method('DELETE')
+              <!--
+                @method('DELETE')
+                → <input type="hidden" name="_method" value="DELETE">を生成
+                  LaravelはPOSTで送られてきたけど、DELETEとして扱う
+              -->
+              @csrf
+              <button
+                type="submit"
+                class="text-gray-300 hover:text-red-500 p-2 rounded-full hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"
+              >
+                <i class="fa-solid fa-trash text-sm"></i>
+              </button>
+            </form>
           </li>
         @endforeach
       </ul>
@@ -140,8 +161,14 @@
 
   </main>
 
-  <!-- Floating Action Button for Add -->
-  <button class="fixed bottom-8 right-8 w-14 h-14 bg-[#1a1a1a] text-white rounded-full shadow-lg hover:shadow-xl hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center group z-50 focus:outline-none focus:ring-4 focus:ring-gray-200">
+  <!-- 
+    Addボタン
+    route("tasks.create") → 作成ページに移動
+  -->
+  <button
+    onclick="location.href='{{ route('tasks.create') }}'"
+    class="fixed bottom-8 right-8 w-14 h-14 bg-[#1a1a1a] text-white rounded-full shadow-lg hover:shadow-xl hover:bg-black hover:scale-105 transition-all duration-300 flex items-center justify-center group z-50 focus:outline-none focus:ring-4 focus:ring-gray-200"
+  >
       <i class="fa-solid fa-plus text-xl group-hover:rotate-90 transition-transform duration-300"></i>
   </button>
 

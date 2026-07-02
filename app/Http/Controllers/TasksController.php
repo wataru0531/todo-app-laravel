@@ -20,7 +20,7 @@ class TasksController extends Controller {
 		// dd($tasks); // デバッグ Dump and Die
 
 		// 変数をviewに渡す → ページを動的にしていく
-		return view("tasks.index", [ // index.blade.php
+		return view("tasks.index", [ // tasks/index.blade.php
 			"tasks" => $tasks
 		]);
 	}
@@ -48,6 +48,45 @@ class TasksController extends Controller {
 		// ]);
 
 		return $result->id . " 番目のタスクを追加しました。";
+	}
+
+	// ✅ 編集ページ
+	// → Routingのweb.phpから、idを受け取る
+	public function edit(int $id) {
+		// echo $id . "を編集します。";
+		$task = Task::findOrFail($id); // ないなら404を返す
+		// dd($task); // attributes に配列でデータが格納されている
+		
+		return view("tasks.edit", [
+			"task" => $task, // 👉 editページに$taskのデータを渡す
+		]);
+	}
+
+	// ✅ 編集する
+	// → web.phpからリクエスト内容と$idが渡ってくる
+	public function update(Request $request, int $id) {
+		$task = Task::findOrFail($id); // 該当するデータを取得
+		// dd($task); // attributesに配列でデータが格納
+
+		// バリデーションを適用。OKなら$validatedに入る
+		$validated = $request->validate(Task::$rules, Task::$messages);
+
+		$task->update($validated); // 👉 更新。TaskはModelを継承しているのでupdateメソッドが使える
+
+		return redirect()->route("tasks.index");
+	}
+
+	// ✅ 作成ページに移動
+	public function create() {
+		return view("tasks.create"); // tasks/create.php を返すだけ
+	}
+
+	// ✅ 削除
+	public function destroy(int $id) {
+		$task = Task::findOrFail($id); // データを取得
+		$task->delete($id);
+
+		return redirect()->route("tasks.index");
 	}
 
 
